@@ -1,4 +1,4 @@
-# Example-1
+# first Class function
 # def outer_func():
 #     message = 'Hi'
 #
