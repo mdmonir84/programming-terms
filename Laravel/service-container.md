@@ -1,18 +1,20 @@
-# Service Container under the hood
+# Demystify Service Container & IoC
 The Laravel service container is a powerful tool for managing class dependencies and performing dependency injection. Dependency injection is a fancy phrase that essentially means this: class dependencies are “injected” into the class via the constructor or, in some cases, “setter” methods.
 
 Simply put, the service container is a container that holds classes you’d like to resolve(instantiate) programmatically later in your application.
 
 ![Laravel-SC](images/Laravel-SC.png)
 
+Laravel's service container located in
+>vendor/laravel/framwork/src/Illuminate/Container/Container.php
 
-We define how an object should be created in one point of the application (the binding) and every time we need to create a new instance, we just ask it to the service container, and it will create it for you, along with the required dependencies For example, instead of creating objects manually with the new keyword:
+We define how an object should be created in one point of the application (the binding) and every time we need to create a new instance, we just ask it to the service container, and it will create it for you, along with the required dependencies
 
-```
-//everytime we need OurClass we should pass the dependency manually
-$instance = new OurClass($dependency);
-```
-Instead, you can register a binding on the Service Container:
+For example, instead of creating objects manually with the new keyword with class dependencies, we can bind ***ourClas or, ourInterface***:
+
+>$instance = new OurClass($dependency);
+
+We can rather register a binding on the Service Container:
 
 ```
 //add a binding for the class YourClass
@@ -25,18 +27,15 @@ App::bind( OurClass::class, function()
     return new OurClass( $dependency );
 });
 ```
-and create an instance through the service container with:
-```
-//no need to create the OurClass dependencies, the SC will do that for us!
-$instance = App::make( OurClass::class );
-```
-With Laravel automatic dependency injection, when an interface is required in some part of the app (i.e. in a controller's constructor), a concrete class is instantiated automatically by the Service Container. Changing the concrete class on the binding, will change the concrete objects instantiated through all your app:
+and create an instance through the service container (SC) with the following way. No need to create the OurClass dependencies, the SC will do that for us!
+> $instance = App::make( OurClass::class );
 
-```
-//every time a UserRepositoryInterface is requested, create an EloquentUserRepository
-App::bind( UserRepositoryInterface::class, EloquentUserRepository::class );
+With Laravel automatic dependency injection, when an interface is required in some part of the app (i.e. in a controller's constructor), a concrete class is instantiated automatically by the Service Container. Changing the concrete class on the binding, will change the concrete objects instantiated through all our app:
 
-```
+Here, every time a ***UserRepositoryInterface*** is requested, create an ***EloquentUserRepository***
+>App::bind( UserRepositoryInterface::class, EloquentUserRepository::class );
+
+
 **Using the Service Container as a Registry**
 
 You can create and store unique object instances on the container and get them back later: using the App::instance method to make the binding, and thus using the container as a Registry.
@@ -44,10 +43,8 @@ You can create and store unique object instances on the container and get them b
 // Create an instance.
 $kevin = new User('Kevin');
 
-
 // Bind it to the service container.
 App::instance('the-user', $kevin);
-
 
 // ...somewhere and/or in another class...
 
@@ -60,12 +57,12 @@ As a final note, essentially the Service Container -is- the Application object: 
 ## Binding
 ### Binding Basics
 
-Almost all of your service container bindings will be registered within service providers, so most of these examples will demonstrate using the container in that context.
+Almost all of our service container bindings will be registered within service providers, so most of these examples will demonstrate using the container in that context.
 
 > There is no need to bind classes into the container if they do not depend on any interfaces. The container does not need to be instructed on how to build these objects, since it can automatically resolve these objects using reflection.
 
 #### Simple Bindings
-Within a service provider, you always have access to the container via the $this->app property. We can register a binding using the bind method, passing the class or interface name that we wish to register along with a Closure that returns an instance of the class:
+Within a service provider, you always have access to the container via the **$this->app** property. We can register a binding using the bind method, passing the class or interface name that we wish to register along with a Closure that returns an instance of the class:
 
 ```
 $this->app->bind('HelpSpot\API', function ($app) {
@@ -96,8 +93,8 @@ $this->app->instance('HelpSpot\API', $api);
 Sometimes you may have a class that receives some injected classes, but also needs an injected primitive value such as an integer. You may easily use contextual binding to inject any value your class may need:
 ```
 $this->app->when('App\Http\Controllers\UserController')
-          ->needs('$variableName')
-          ->give($value);
+           ->needs('$variableName')
+           ->give($value);
 ```
 ### Binding Interfaces To Implementations
 
@@ -130,6 +127,7 @@ Sometimes you may have two classes that utilize the same interface, but you wish
 ![contextual-binding](images/contextual-binding.png)
 ```
 namespace App\Providers;
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -152,12 +150,12 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->when('App\Http\Controllers\AccountingController')
-            ->needs('App\Repositories\ReportRepositoryInterface')
-            ->give('App\Repositories\AccountingReportRepository');
+                  ->needs('App\Repositories\ReportRepositoryInterface')
+                  ->give('App\Repositories\AccountingReportRepository');
 
         $this->app->when('App\Http\Controllers\HrController')
-            ->needs('App\Repositories\ReportRepositoryInterface')
-            ->give('App\Repositories\HrReportRepository');
+                  ->needs('App\Repositories\ReportRepositoryInterface')
+                  ->give('App\Repositories\HrReportRepository');
     }
 }
 ```
@@ -210,15 +208,21 @@ If some of your class' dependencies are not resolvable via the container, you ma
  ```
  class SimpleContainer
  {
-    protected static $container = [];    public static function bind($name, Callable $resolver)
+    protected static $container = [];
+
+    public static function bind($name, Callable $resolver)
     {
         static::$container[$name] = $resolver;
-    }    public static function make($name)
+    }
+
+    public static function make($name)
     {
       if(isset(static::$container[$name])){
         $resolver = static::$container[$name] ;
         return $resolver();
-    }    throw new Exception("Binding does not exist in containeer");   }
+    }
+    throw new Exception("Binding does not exist in containeer");
+  }
 }
  ```
 
@@ -231,7 +235,8 @@ class LogToDatabase
     {
        var_dump('log the message to a database :'.$message);
     }
-}class UsersController {
+}
+class UsersController {
 
     protected $logger;
 
@@ -252,7 +257,10 @@ Here bind dependency.
 SimpleContainer::bind('Foo', function()
  {
    return new UsersController(new LogToDatabase);
- });$foo = SimpleContainer::make('Foo');print_r($foo->show());
+ });
+
+ $foo = SimpleContainer::make('Foo');
+ print_r($foo->show());
 ```
 Output:
 > string(36) "Log the messages to a file : JohnDoe"
