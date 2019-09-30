@@ -2,7 +2,7 @@
 
 ## Laravel lifecycle
 
-![Laravel-lifecycle](Laravel-lifecycle.png)
+![Laravel-lifecycle](images/Laravel-lifecycle.png)
 
 ## What makes Laravel slow
 - A large amount of files are required
@@ -14,4 +14,4 @@
 
 ## Scope of optimization
 
-![Laravel-lifecycle-optimization](Laravel-lifecycle02.png)
+![Laravel-lifecycle-optimization](images/Laravel-lifecycle02.png)

@@ -4,7 +4,7 @@ Facades provide a "static" interface to classes that are available in the applic
 
 All of Laravel’s facades are defined in the **Illuminate/Support/Facade** namespace. So, we can easily access a facade like this:
 
-![Laravel-Facades](Laravel-Facades.png)
+![Laravel-Facades](images/Laravel-Facades.png)
 
 Let's look at a simple example.
 ```

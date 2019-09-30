@@ -3,7 +3,7 @@ The Laravel service container is a powerful tool for managing class dependencies
 
 Simply put, the service container is a container that holds classes you’d like to resolve(instantiate) programmatically later in your application.
 
-![Laravel-SC](Laravel-SC.png)
+![Laravel-SC](images/Laravel-SC.png)
 
 
 We define how an object should be created in one point of the application (the binding) and every time we need to create a new instance, we just ask it to the service container, and it will create it for you, along with the required dependencies For example, instead of creating objects manually with the new keyword:
@@ -127,7 +127,7 @@ public function __construct(EventPusher $pusher)
 
 Sometimes you may have two classes that utilize the same interface, but you wish to inject different implementations into each class. For example, two controllers may depend on different implementations of the same **ReportRepositoryInterface**:
 
-![contextual-binding](contextual-binding.png)
+![contextual-binding](images/contextual-binding.png)
 ```
 namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
