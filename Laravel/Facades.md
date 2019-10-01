@@ -4,7 +4,9 @@ Facades provide a "static" interface to classes that are available in the applic
 
 ![Laravel-Facades](images/Laravel-Facades.png)
 
-All of Laravel’s facades are defined in the Illuminate/Support/Facade namespace. So, we can easily access a facade like this:
+Laravel facades serve as **static proxies** to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods.
+
+All of Laravel’s facades are defined in the *Illuminate/Support/Facade* namespace. So, we can easily access a facade like this:
 
 ```
 use Illuminate\Support\Facades\Cache;
@@ -17,9 +19,10 @@ Route::get('/cache', function () {
 Facades have more advantage.
 - They provide a brief, memorable syntax that allows to use Laravel features without memorizing long class names that must be injected or configured manually.
 - Because of their unique usage of PHP's dynamic methods, they are easy to test.
-- The primary danger of facades is class scope creep. Since facades are so easy to use and do not require injection, it can be easy to let your classes continue to grow and use many facades in a single class.
+- The primary danger of facades is class scope creep. Since facades are so easy to use and do not require injection, it can be easy to let our classes continue to grow and use many facades in a single class.
+- Using dependency injection, this potential is mitigated by the visual feedback a large constructor gives you that our class is growing too large. So, when using facades, we need to pay special attention to the size of our class so that its scope of responsibility stays narrow.
 
-When building a third party package that interacts with laravel, it's better to inject Laravel contracts instead of using facades. Since packages are built outside of Laravel itself, you will not have access to Laravel's facade testing helper.
+>When building a third party package that interacts with laravel, it's better to inject Laravel contracts instead of using facades. Since packages are built outside of Laravel itself, you will not have access to Laravel's facade testing helper.
 
 ## Facades Vs. Dependency Injection
 
@@ -67,7 +70,7 @@ The cache helper is going to call the get method on the class underlying the cac
 
 A facade is a class that provides access to an object from the container. The machinery that makes this work is in the facade class. Laravel's facades, and any custom facades you create, will extend the base *Illuminate/Support/Facades/Facade* class.
 
-The Facade base class make use of the *__callStatic()* magic-method to defer calls from your facade to an object resolved from the container.
+The Facade base class make use of the *__callStatic()* magic-method to defer calls from our facade to an object resolved from the container.
 
 ```
 namespace App\Http\Controllers;
