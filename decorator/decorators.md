@@ -4,7 +4,7 @@ A decorator is a programming pattern where you wrap something in something else 
 
 In Python, decorators are functions that return a version of the thing that is decorated. In Java, the decoration pattern is generally implemented in the form of wrapper classes (though Java also has a feature called “annotations” that are decorators that work kind of like Python decorators).
 
-![decorator](images/decorator.png)
+![decorator-image](images/decorator.png)
 
 ## Decorator implementation
 
