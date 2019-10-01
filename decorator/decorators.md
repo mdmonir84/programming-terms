@@ -20,15 +20,16 @@ def decorator_func(original_func):
         return original_func(*args, **kargs)
     return wrapper_func
 
+@decorator_func
 def display():
     print('display function ran')
 
+@decorator_func
 def display_info(name, age):
     print('display info ran with arguments ({}, {})'.format(name, age))
 
-@decorator_func
+
 display_info('MD', 36)
-@decorator_func
 display()
 
 -----------------------------------------------------------------
