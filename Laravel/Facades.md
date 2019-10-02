@@ -6,6 +6,8 @@ Facades provide a "static" interface to classes that are available in the applic
 
 Laravel facades serve as **static proxies** to underlying classes in the service container, providing the benefit of a terse, expressive syntax while maintaining more testability and flexibility than traditional static methods.
 
+![facade-interface](images/facade-interface.png)
+
 All of Laravel’s facades are defined in the *Illuminate/Support/Facade* namespace. So, we can easily access a facade like this:
 
 ```
