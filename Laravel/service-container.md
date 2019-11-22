@@ -3,7 +3,7 @@ The Laravel service container is a powerful tool for managing class dependencies
 
 Simply put, the service container is a container that holds classes you’d like to resolve(instantiate) programmatically later in your application.
 
-![Laravel-SC](images/Laravel-SC.png)
+![Laravel-SC](images/service-container.png)
 
 Laravel's service container located in
 >vendor/laravel/framwork/src/Illuminate/Container/Container.php
@@ -29,6 +29,11 @@ App::bind( OurClass::class, function()
 ```
 and create an instance through the service container (SC) with the following way. No need to create the OurClass dependencies, the SC will do that for us!
 > $instance = App::make( OurClass::class );
+
+The following snippet illustrates the above steps:
+
+![Laravel-SC-methods](images/SC-methods.png)
+
 
 With Laravel automatic dependency injection, when an interface is required in some part of the app (i.e. in a controller's constructor), a concrete class is instantiated automatically by the Service Container. Changing the concrete class on the binding, will change the concrete objects instantiated through all our app:
 
