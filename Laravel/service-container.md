@@ -32,7 +32,7 @@ and create an instance through the service container (SC) with the following way
 
 The following snippet illustrates the above steps:
 
-![SC-lifecycle](images/SC-lifecycle.png)
+![SC-methods](images/SC-methods.png)
 
 
 With Laravel automatic dependency injection, when an interface is required in some part of the app (i.e. in a controller's constructor), a concrete class is instantiated automatically by the Service Container. Changing the concrete class on the binding, will change the concrete objects instantiated through all our app:
