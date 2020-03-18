@@ -3,7 +3,7 @@
 Service providers are the central place of all Laravel application bootstrapping. our own application, as well as all of Laravel's core services are bootstrapped via service providers.
 
 
-Service containers allow us to define bindings and inject dependencies, the service provider is where the action takes place. If we open the config/app.php file included with Laravel, we will see a  **providers array**. These are all of the service provider classes that will be loaded for our application. Of course, many of these are “deferred” providers, meaning they will not be loaded on every request, but only when the services they provide are actually needed.
+**Service containers** allow us to define bindings and inject dependencies, the **service provider** is where the action takes place. If we open the config/app.php file included with Laravel, we will see a  **providers array**. These are all of the service provider classes that will be loaded for our application. Of course, many of these are “deferred” providers, meaning they will not be loaded on every request, but only when the services they provide are actually needed.
 
 In simple terms, **a Service Provider is used to register classes into the service container.**
 

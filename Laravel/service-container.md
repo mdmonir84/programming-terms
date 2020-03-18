@@ -1,4 +1,24 @@
 # Demystify Service Container & IoC
+## Service Container
+
+A modern PHP application is full of objects. Several objects are responsible for various purposes. One object may facilitate the delivery of email messages while another may allow us to persist information into a database. In our application, we may create an object that manages our product inventory, or another object that processes data from a third-party API. The point is that a modern application does many things and is organized into many objects that handle each task.
+
+A special core object of any modern PHP called a **service container** will help us in the following aspects
+  - standardize &
+  - centralize the way objects are constructed in application.
+  - the container makes life easier as it is super fast, and
+  - emphasizes an architecture that promotes reusable and decoupled code.
+
+## What is Service
+
+Put simply, a Service is any PHP object that performs some sort of "global" task. It's a purposefully-generic name used in computer science to describe an object that's created for a specific purpose (e.g. delivering emails). Each service is used throughout our application whenever we need the specific functionality it provides. We don't have to do anything special to make a service: simply write a PHP class with some code that accomplishes a specific task. Congratulations, we've just created a service!
+
+So what's the big deal then? The advantage of thinking about "services" is that we begin to think about separating each piece of functionality in our application into a series of services. Since each service does just one job, we can easily access each service and use its functionality wherever we need it. Each service can also be more easily tested and configured since it's separated from the other functionality in our application. This idea is called service-oriented architecture and is not unique to Laravel or even PHP. Structuring our application around a set of independent service classes is a well-known and trusted object-oriented best-practice. These skills are key to being a good developer in almost any language.
+
+> As a rule, a PHP object is a service if it is used globally in your application. A single Mailer service is used globally to send email messages whereas the many Message objects that it delivers are not services. Similarly, a Product object is not a service, but an object that persists Product objects to a database is a service.
+
+
+## Laravel Service Container
 The Laravel service container is a powerful tool for managing class dependencies and performing dependency injection. Dependency injection is a fancy phrase that essentially means this: class dependencies are “injected” into the class via the constructor or, in some cases, “setter” methods.
 
 Simply put, the service container is a container that holds classes you’d like to resolve(instantiate) programmatically later in your application.
@@ -62,7 +82,7 @@ As a final note, essentially the Service Container -is- the Application object: 
 ## Binding
 ### Binding Basics
 
-Almost all of our service container bindings will be registered within service providers, so most of these examples will demonstrate using the container in that context.
+**Almost all of our service container bindings will be registered within service providers**, so most of these examples will demonstrate using the container in that context. **Binding take place in the register method of ServiceProvider**
 
 > There is no need to bind classes into the container if they do not depend on any interfaces. The container does not need to be instructed on how to build these objects, since it can automatically resolve these objects using reflection.
 
