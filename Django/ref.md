@@ -1,9 +1,22 @@
 # Reference
 
 - https://tutorial.djangogirls.org/en/
+
+## Django Form
 - https://docs.djangoproject.com/en/3.0/ref/forms/fields/#built-in-fields
 - https://docs.djangoproject.com/en/3.0/topics/forms/media/#assets-as-a-static-definition
 - https://docs.djangoproject.com/en/3.0/topics/forms/media/#dynamic-property
+
+
+## Django Views
+- https://medium.com/all-about-django/class-based-views-in-django-89108c1f51fb
+- https://docs.djangoproject.com/en/3.0/ref/class-based-views/base/
+- https://www.slideshare.net/spinlai/django-class-based-views-for-beginners
+- https://ccbv.co.uk/projects/Django/3.0/django.views.generic.detail/DetailView/
+- http://django-vanilla-views.org/
+
+## Django Twitter Bootstrap Modal 
+- https://dmorgan.info/posts/django-views-bootstrap-modals/
 
 
 ## Popular packages
