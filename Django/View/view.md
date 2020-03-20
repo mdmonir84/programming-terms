@@ -120,10 +120,6 @@ class TemplateView(TemplateResponseMixin, ContextMixin, View):
 ## Built-in Class-based Generic Views
 
 ### Category of Built-in Class-based Generic Views
-- Base
-- List
-- Detail
-- Edit
 
 - Base Generic Views
   - django.views.generic.View
