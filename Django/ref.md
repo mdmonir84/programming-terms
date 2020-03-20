@@ -15,9 +15,12 @@
 - https://ccbv.co.uk/projects/Django/3.0/django.views.generic.detail/DetailView/
 - http://django-vanilla-views.org/
 
-## Django Twitter Bootstrap Modal 
+## Django Twitter Bootstrap Modal
 - https://dmorgan.info/posts/django-views-bootstrap-modals/
 
+# Build a To-Do application Using Django and React
+- https://www.digitalocean.com/community/tutorials/how-to-build-a-modern-web-application-to-manage-customer-information-with-django-and-react-on-ubuntu-18-04
+- https://scotch.io/tutorials/build-a-to-do-application-using-django-and-react
 
 ## Popular packages
 - certifi==2018.10.15
