@@ -42,7 +42,7 @@ def post_add_form(request):
             {'form': form, 'action': action})
 
 ```
-![Django-FBV](images/Django_FBV.png)
+![Django-FBV](images/Django_FBV.PNG)
 
 ## Class-based View
 
@@ -68,7 +68,7 @@ class PostListView(View):
 
 ```
 
-![Django-CBV](images/Django_CBV.png)
+![Django-CBV](images/Django_CBV.PNG)
 
 
 ## What is Mixin in Python?
@@ -91,7 +91,7 @@ class MyOwnMixin(object):
 ## When to use?
 - Reuse code / features across multiple classes
 
-![Django-Mixin](images/Django_mixin.png)
+![Django-Mixin](images/Django_mixin.PNG)
 
 ## Rule of thumb
 - Base view classes provided by Django always go to the
@@ -194,20 +194,20 @@ class PostCreateView(CreateView):
 ```
 ## TemplateView
 
-![Django-TemplateView](images/Django_TemplateView.png)
+![Django-TemplateView](images/Django_TemplateView.PNG)
 
 
 ## ListView
 
-![Django-ListView](images/Django_ListView.png)
+![Django-ListView](images/Django_ListView.PNG)
 
 ## DetailView
 
-![Django-DetailView](images/Django_DetailView.png)
+![Django-DetailView](images/Django_DetailView.PNG)
 
 ## FormView
 
-![Django-FormView](images/Django_FormView.png)
+![Django-FormView](images/Django_FormView.PNG)
 
 ## The Dark Side of Mixins
 - Easy to lose track of the origin of your methods
