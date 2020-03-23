@@ -18,9 +18,12 @@
 ## Django Twitter Bootstrap Modal
 - https://dmorgan.info/posts/django-views-bootstrap-modals/
 
-# Build a To-Do application Using Django and React
+## Build a To-Do application Using Django and React
 - https://www.digitalocean.com/community/tutorials/how-to-build-a-modern-web-application-to-manage-customer-information-with-django-and-react-on-ubuntu-18-04
 - https://scotch.io/tutorials/build-a-to-do-application-using-django-and-react
+
+## Jinja2 macros
+https://django-jinja-knockout.readthedocs.io/en/latest/macros.html
 
 ## Popular packages
 - certifi==2018.10.15
