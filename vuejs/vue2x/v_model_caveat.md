@@ -49,10 +49,7 @@ module.exports = {
 	},
 ```
 
-
-
 ## Evan You Ref
-
 
 Component calling using object as props 
 
@@ -97,3 +94,18 @@ var vm = new Vue({
   }
 })
 ```
+## 
+- Actually, if you don't want to make it affect parent immediately, you should not be mutating the prop object directly in child. 
+- Any change to the prop should be done by ```$emit('input', <mutated clone>)``, which is how v-model was designed to be used with objects. 
+- Yes, the parent state gets replaced by a new fresh object.
+- using a local cloned value is the right approach. 
+- It serves as a temporary state of the child, and it should be flushed by parent state changes triggered by ```$emit('input', ...)```
+
+
+## 
+
+- v-model exists to create input components, right? So the prop passed in v-model is intended to be modified, right? That's the only reason to pass things via v-model.
+- Because Vue js doesn't use immutable data, and it passes everything by reference, modifying the prop passed is an anti-pattern. ("This means you should not attempt to mutate a prop inside a child component." )
+- So if I modify the value prop that I got with the intention of modifying it, I'm doing the anti pattern. How does that make sense?
+- I guess I don't understand why v-model exists without deep-copying the passed value since there is no way to do what is intended to do without deep copying first.
+
