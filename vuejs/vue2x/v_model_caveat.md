@@ -48,3 +48,52 @@ module.exports = {
 		}
 	},
 ```
+
+
+
+## Evan You Ref
+
+
+Component calling using object as props 
+
+```
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+  <test v-model="obj"></test>
+</div>
+
+```
+Component details 
+
+```
+Vue.component('test', {
+  props: ['value'],
+  template: `<div @click="update">{{ value.text }}</div>`,
+  methods: {
+    update () {
+    	// never modify the prop.
+      // emit a clone with updated fields.
+      var updatedCopy = Object.assign({}, this.value, {
+        text: Math.random().toFixed(3)
+      })
+      this.$emit('input', updatedCopy)
+    }
+  },
+  watch: {
+    // watcher works as intended.
+    value (val) {
+      console.log('value updated: ' + JSON.stringify(val))
+    }
+  }
+})
+
+var vm = new Vue({
+  el: '#app',
+  data: {
+    obj: {
+      text: '123'
+    }
+  }
+})
+```
