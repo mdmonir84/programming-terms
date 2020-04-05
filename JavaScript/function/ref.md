@@ -71,3 +71,15 @@ foo = new Function (
 ```
 
 - https://stackoverflow.com/questions/2136522/can-you-alter-a-javascript-function-after-declaring-it
+
+
+## Partial Function 
+
+
+
+## Currying 
+
+
+- https://www.digitalocean.com/community/tutorials/javascript-functional-programming-explained-partial-application-and-currying
+- https://medium.com/@JosephJnk/partial-function-application-in-javascript-and-flow-7f3ca87074fe
+- https://towardsdatascience.com/javascript-currying-vs-partial-application-4db5b2442be8
