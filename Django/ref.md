@@ -1,6 +1,7 @@
 # Reference
 
 - https://tutorial.djangogirls.org/en/
+- https://www.agiliq.com/
 
 ## Django Form
 - https://docs.djangoproject.com/en/3.0/ref/forms/fields/#built-in-fields
