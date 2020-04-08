@@ -39,3 +39,6 @@ class SimpleForm(forms.Form):
     )
 ```
 See the Built-in widgets for more information about which widgets are available and which arguments they accept.
+
+
+> Ref : https://blog.ihfazh.com/django-custom-widget-with-3-examples.html
