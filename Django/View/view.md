@@ -50,6 +50,35 @@ def post_add_form(request):
 - Actually called as Function
 - Using mixins to add functionality
 
+## Some Advantages of Using Class Based View
+- Code reuseability - In CBV, a view class can be inherited by another view class and modified for a different use case.
+- DRY - Using CBVs help to reduce code duplication
+- Code extendability - CBV can be extended to include more functionalities using Mixins
+- Code structuring - In CBVs A class based view helps you respond to different http request with different class instance methods instead of conditional branching statements inside a single function based view.
+
+## Notes 
+- Django class based view provides a class instance method as_view() which serves as an entry point for any generic CBV. 
+- Django URL resolver expects to send the request passed through it to a callable(a function). 
+- The as_view() class instance method in each generic view creates a hook for calling the class just like a method.
+
+As such, the url configuration for calling a CBV follows the pattern below.
+
+```
+urlpatterns = [
+	url(r'^homepage/', ClassView.as_view(), name = "url_name") 
+]
+```
+The as_view() method then calls the dispatch() method which in turn calls the class instance method defined for the applicable http request method if available or throws an HttpResponseNotAllowed exception.
+
+```
+CBV.as_view() ------> CBV.dispatch() --------------------
+                                     |     |     |      | and so on.
+                                     v     v     v      v
+                                    get   post  head   put
+```
+Base class attributes can be overriden in child class as with the standard Python approach. Alternatively, the new attribute can be passed as an argument to the as_view() method of the CBV
+
+
 ## What does it look like?
 
 ```
