@@ -62,8 +62,8 @@ urlpatterns = [
 
 class PostListView(View):
   def get(self, request):
-    posts=Post.objects.all()
-    return render(request, 'blog/post_list.html',
+      posts=Post.objects.all()
+      return render(request, 'blog/post_list.html',
                           {'posts': posts})
 
 ```
