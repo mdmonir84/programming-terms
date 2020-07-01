@@ -39,7 +39,7 @@ Ref : https://kite.com/python/docs/django.db.models.ForeignKey
 
 ```
 class Node(Model): 
-    ip_address = models.GenericIPAddressField(verbose_name=_("remote address")) 
+    ip_address = models.GenericIPAddressField(verbose_name="remote address") 
 ```
 
 ## Django two database integration
