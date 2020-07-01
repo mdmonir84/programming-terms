@@ -12,7 +12,6 @@
 |primary_key	|If True, this field is the primary key for the model.|
 |editable	    |If False, the field will not be displayed in the admin or any other ModelForm. They are also skipped during model validation. Default is True.|
 |error_messages	|The error_messages argument lets you override the default messages that the field will raise. Pass in a dictionary with keys matching the error messages you want to override.|
-|help_text	    |Extra “help” text to be displayed with the form widget. It’s useful for documentation even if your field isn’t used on a form.|
 |verbose_name	|A human-readable name for the field. If the verbose name isn’t given, Django will automatically create it using the field’s attribute name, converting underscores to spaces.|
 |validators	    |A list of validators to run for this field. See the validators documentation for more information.|
 |Unique	    |If True, this field must be unique throughout the table.|
