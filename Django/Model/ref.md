@@ -98,7 +98,23 @@ To reverse all migrations for an app, you can run:
 - ./manage.py migrate my_app zero
 
 
+## Overriding QuerySet.delete() in Django
+We can override a Manager's default QuerySet by overriding the Manager.get_query_set() method.
+
+```
+class ModifiedQuerySet(models.query.QuerySet):
+
+    def delete(self):
+        pass  # you can throw an exception
 
 
+class RestrictedDeleteManager(models.Manager):
+    def get_query_set(self):
+        return ModifiedQuerySet(self.model, using=self._db)
 
+class MyModel(models.Model)
+    field1 = ..
+    field2 = ..
 
+    objects = RestrictedDeleteManager()
+```
