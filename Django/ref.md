@@ -3,6 +3,11 @@
 - https://tutorial.djangogirls.org/en/
 - https://www.agiliq.com/
 
+
+## Django Model 
+- https://simpleisbetterthancomplex.com/tips/2018/02/10/django-tip-22-designing-better-models.html
+- https://simpleisbetterthancomplex.com/tips/2016/10/05/django-tip-16-simple-database-access-optimizations.html
+
 ## Django Form
 - https://docs.djangoproject.com/en/3.0/ref/forms/fields/#built-in-fields
 - https://docs.djangoproject.com/en/3.0/topics/forms/media/#assets-as-a-static-definition
@@ -15,6 +20,13 @@
 - https://www.slideshare.net/spinlai/django-class-based-views-for-beginners
 - https://ccbv.co.uk/projects/Django/3.0/django.views.generic.detail/DetailView/
 - http://django-vanilla-views.org/
+
+## Django settings
+- https://simpleisbetterthancomplex.com/tips/2017/07/03/django-tip-20-working-with-multiple-settings-modules.html
+
+## Django custom command 
+- https://simpleisbetterthancomplex.com/tutorial/2018/08/27/how-to-create-custom-django-management-commands.html
+
 
 ## Django Twitter Bootstrap Modal
 - https://dmorgan.info/posts/django-views-bootstrap-modals/
