@@ -11,7 +11,7 @@ In Python, decorators are functions that return a version of the thing that is d
 ```
 Example-1
 ----------
-# Here @decorator_func ---> display = decorator_func(display)
+# Here @decorator_func ===> display = decorator_func(display)
 
 # decorator
 def decorator_func(original_func):
@@ -113,8 +113,6 @@ def printer(msg):
     print(msg)
 printer = star(percent(printer))
 
-```
-
 -------------------------------------------
 Example-4 (To make bold & italic letters)
 -------------------------------------------
@@ -146,5 +144,38 @@ def log(s):
 print(hello())        # returns "<b><i>hello world</i></b>"
 print(hello.__name__)  # with functools.wraps() this returns "hello"
 print(log('hello'))   # returns "<b><i>hello</i></b>"
+
+```
+
+## Python | functools.wraps() function
+
+functools is a standard Python module for higher-order functions (functions that act on or return other functions). wraps() is a decorator that is applied to the wrapper function of a decorator. It updates the wrapper function to look like wrapped function by coping attributes such as __name__, __doc__ (the docstring), etc.
+
+```
+from functools import wraps 
+
+def a_decorator(func): 
+	@wraps(func) 
+	def wrapper(*args, **kwargs): 
+		"""A wrapper function"""
+
+		# Extend some capabilities of func 
+		func() 
+	return wrapper 
+
+@a_decorator
+def first_function(): 
+	"""This is docstring for first function"""
+	print("first function") 
+
+@a_decorator
+def second_function(a): 
+	"""This is docstring for second function"""
+	print("second function") 
+
+print(first_function.__name__) 
+print(first_function.__doc__) 
+print(second_function.__name__) 
+print(second_function.__doc__) 
 
 ```
