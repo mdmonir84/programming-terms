@@ -197,3 +197,59 @@ in BaseClass(int i)
 */
 
 ```
+
+## Extension Method
+
+- An extension method is one that is used to extend the functionality of existing types by adding methods . 
+- We don't need to create subclasses of existing classes or recompile or modify your existing classes to work with extension methods. 
+- Extension methods improve the readability of your code while at the same time allowing you to extend functionality of existing types.
+
+
+- The common extension methods in .Net include the LINQ standard query operators that adds additional query capabilities to the `System.Collections.IEnumerable` and `System.Collections.Generic.IEnumerable<T>` types. 
+- Note that you can take advantage of extension methods to extend a class or an interface but you cannot override their methods. 
+
+
+```
+Examaple-01
+------------------------
+// Building extension method of string class 
+public static class StringExtensions
+{
+    public static bool IsNumeric(this string str)
+    {
+        double output;
+        return double.TryParse(str, out output);
+    }
+
+}
+
+// Usage of above extension method 
+static void Main(string[] args)
+    {
+        string str = "20";
+        if (str.IsNumeric())
+            Console.WriteLine("The string object contains numeric value.");
+        Console.Read();
+    }
+
+
+Examaple-02
+--------------------
+// Building extension method of integer class 
+public static class IntegerExtensions
+{
+    public static bool IsOdd(this int i)
+    {
+        return ((i % 2) != 0);
+    }
+}
+
+// Usage of above extension method 
+static void Main(string[] args)
+{
+    int n = 25;
+    if(n.IsOdd())
+    Console.WriteLine("The value of the integer is odd.");
+}
+
+```
