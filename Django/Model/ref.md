@@ -118,3 +118,190 @@ class MyModel(models.Model)
 
     objects = RestrictedDeleteManager()
 ```
+## Foreign Key 
+
+### related_name
+- The name to use for the relation from the related object back to this one. 
+- It’s also the default value for related_query_name (the name to use for the reverse filter name from the target model). 
+- If you’d prefer Django not to create a backwards relation, set related_name to '+' or end it with '+'. 
+- For example, this will ensure that the User model won’t have a backwards relation to this model:
+
+```
+user = models.ForeignKey(
+    User,
+    on_delete=models.CASCADE,
+    related_name='+',
+)
+```
+## Acution about related_name and related_query_name
+- If you are using related_name or related_query_name on a ForeignKey or ManyToManyField, you must always specify a unique reverse name and query name for the field. 
+- This would normally cause a problem in `abstract base classes`, since the fields on this class are included into each of the child classes, with exactly the same values for the attributes (including `related_name` and `related_query_name`) each time.
+- To work around this problem, when you are using `related_name` or `related_query_name` in an abstract base class (only), part of the value should contain `'%(app_label)s' and '%(class)s'`.
+- `'%(class)s'` is replaced by the lowercased name of the child class that the field is used in.
+- `'%(app_label)s'` is replaced by the lowercased name of the app the child class is contained within. 
+- Each installed application name must be unique and the model class names within each app must also be unique, therefore the resulting name will end up being different.
+
+```
+For example, given an app common/models.py:
+
+from django.db import models
+
+class Base(models.Model):
+    m2m = models.ManyToManyField(
+        OtherModel,
+        related_name="%(app_label)s_%(class)s_related",
+        related_query_name="%(app_label)s_%(class)ss",
+    )
+
+    class Meta:
+        abstract = True
+
+class ChildA(Base):
+    pass
+
+class ChildB(Base):
+    pass
+```
+
+## Databasee Manager 
+
+
+
+## Multiple Database Setup 
+
+## Database Mapping 
+![database-mapping](images/database_mapping.png)
+
+## Database Mapping without router
+![database-router](images/database_router.png)
+## Update Settings
+
+```
+DATABASE_ROUTERS = ['project<name>.router.DbRouter']
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test',
+        'USER': '******',
+        'PASSWORD': '******',
+        'HOST': 'localhost',
+        'PORT': '',
+    },
+	'app_db': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'file::memory:',
+    },
+}
+
+```
+
+## Database Router 
+
+```
+class DbRouter:
+    """
+    A router to control all database operations on models in the
+    user application.
+    """
+    def db_for_read(self, model, **hints):
+        """
+        Attempts to read 'app-1' models go to app_db.
+        """
+        if model._meta.app_label == 'app-1':
+            return 'app_db'
+		# Otherwise no opinion, defer to other routers or default database
+        return None
+
+    def db_for_write(self, model, **hints):
+        """
+        Attempts to write 'app-1' models go to app_db.
+        """
+        if model._meta.app_label == 'app-1':
+            return 'app_db'
+        # Otherwise no opinion, defer to other routers or default database
+		return None
+
+    def allow_relation(self, obj1, obj2, **hints):
+        """
+        Allow relations if a model in the 'app-1' is involved.
+        """
+        if obj1._meta.app_label == 'app-1' or \
+           obj2._meta.app_label == 'app-1':
+           return True
+        # Otherwise no opinion, defer to other routers or default database
+		return None
+
+	def allow_migrate(self, db, app_label, model_name=None, **hints):
+        """
+        Make sure the 'app-1' only appears in the 'app_db'
+        database.
+        """
+		if db == 'app_db':
+            # Migrate Django 'app-1' models if current database is 'app_db'
+            if app_label =='app-1':
+                return True            
+            else:
+                # Non Django 'app-1' models should not be migrated if database is 'app_db'
+                return False
+        # Otherwise no opinion, defer to other routers or default database
+        return None
+
+	# def allow_syncdb(self, db, model):
+        # """
+        # Make sure the 'app-1' app only appears on the 'other' db
+        # """
+        # if db == 'app_db':
+            # return model._meta.app_label == 'app-1'
+        # elif model._meta.app_label == 'app-1':
+            # return False
+        # return None
+
+```
+
+
+## Database model needs to update 
+
+```
+class Model01(models.Model):
+    ..... = models.DecimalField(
+						max_digits=19, 
+						decimal_places=4,
+						
+						)
+						
+
+    . . .
+        class Meta:
+            app_label = 'app-1'
+
+```
+
+## Without Database Router 
+### Migration command to specific database
+  - python manage.py migrate --database=node_db
+
+### Database operation while multiple database
+```
+# Query
+# This will run on the 'default' database.
+Mode.objects.all()
+
+# So will this.
+Memory.objects.using('node_db').all()
+
+# This will run on the 'other' database.
+Cpu.objects.using('node_db').all()
+
+# Save 
+my_object.save(using='legacy_users')
+
+# Query & save
+p = Person(name='Fred')
+p.save(using='first')  # (statement 1)
+p.save(using='second') # (statement 2)
+
+# Query & delete
+u = User.objects.using('legacy_users').get(username='fred')
+u.delete() # will delete from the `legacy_users` database
+```
