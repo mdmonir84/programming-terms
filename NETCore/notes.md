@@ -253,3 +253,51 @@ static void Main(string[] args)
 }
 
 ```
+## Delegate 
+
+The delegate is a reference type data type that defines the method signature. You can define variables of delegate, just like other data type, that can refer to any method with the same signature as the delegate.
+
+A delegate can be seen as a placeholder for a/some method(s).
+
+By defining a delegate, you are saying to the user of your class, "Please feel free to assign, any method that matches this signature, to the delegate and it will be called each time my delegate is called".
+
+
+Delegates have the following properties:
+
+- Delegates are similar to C++ function pointers, but are type safe.
+- Delegates allow methods to be passed as parameters.
+- Delegates can be used to define callback methods.
+- Delegates can be chained together; for example, multiple methods can be called on a single event.
+- Methods don't need to match the delegate signature exactly. For more information, see Covariance and Contra variance.
+- C# version 2.0 introduces the concept of Anonymous Methods, which permit code blocks to be passed as parameters in place of a separately defined method.
+
+There are three steps involved while working with delegates:
+
+- Declare a delegate
+- Set a target method
+- Invoke a delegate
+
+A delegate can be declared using the delegate keyword followed by a function signature, as shown below.
+
+```
+//Declare a Delegate
+public delegate void MyDelegate(string msg);
+
+// set target method
+MyDelegate del = new MyDelegate(MethodA);
+// or 
+MyDelegate del = MethodA; 
+// or set lambda expression 
+MyDelegate del = (string msg) =>  Console.WriteLine(msg);
+
+// target method
+static void MethodA(string message)
+{
+    Console.WriteLine(message);
+}
+
+//Invoke a Delegate
+del.Invoke("Hello World!");
+// or 
+del("Hello World!");
+```
