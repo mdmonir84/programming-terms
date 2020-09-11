@@ -1,6 +1,130 @@
 # Entity Framework 6
 
+# EF Code pathway 
 
+- Create Domain Class/Model
+- Create Context Class (Database abstraction of EF6)
+- Consume context class for DB operation 
+
+
+```
+public class Student
+{
+    public int ID { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+
+    public DateTime EnrollmentDate { get; set; }
+        
+    public virtual ICollection<Enrollment> Enrollments { get; set; }
+}
+
+
+public enum Grade
+    {
+        A, B, C, D, F
+    }
+
+public class Enrollment
+{
+    public int EnrollmentID { get; set; }
+    public int CourseID { get; set; }
+    public int StudentID { get; set; }
+    public Grade? Grade { get; set; }
+
+    public virtual Course Course { get; set; }
+    public virtual Student Student { get; set; }
+}
+
+
+public class SchoolContext: DbContext 
+{
+    public SchoolContext(): base()
+    {
+        
+    }
+        
+    public DbSet<Student> Students { get; set; }
+    public DbSet<Grade> Enrollments { get; set; }
+}
+
+
+class Program
+    {
+        static void Main(string[] args)
+        {
+     
+            using (var ctx = new SchoolContext())
+            {
+                var stud = new Student() { StudentName = "Bill" };
+        
+                ctx.Students.Add(stud);
+                ctx.SaveChanges();                
+            }
+        }
+    }
+
+
+```
+
+### Table in Database 
+
+![Table-in-Database](images/codefirst_db.png)
+
+### Database & Model mapping 
+
+![EF6-Table-Mapping](images/EF_table_mapping.png)
+
+## EF 6 Code-First Conventions
+
+| Default        | Description          | 
+| ------------- |:-------------:| 
+|Schema	| By default, EF creates all the DB objects into the dbo schema.|
+|Table Name	|```<Entity Class Name>``` + 's' EF will create a DB table with the entity class name suffixed by 's' e.g. Student domain class (entity) would map to the Students table.|
+|Primary key Name|	1) Id 2) ```<Entity Class Name>``` + "Id" (case insensitive) EF will create a primary key column for the property named Id or <Entity Class Name> + "Id" (case insensitive).|
+|Foreign key property Name|	By default EF will look for the foreign key property with the same name as the principal entity primary key name. If the foreign key property does not exist, then EF will create an FK column in the Db table with ```<Dependent Navigation Property Name>``` + "_" + ```<Principal Entity Primary Key Property Name>``` e.g. EF will create Grade_GradeId foreign key column in the Students table if the Student entity does not contain foreignkey property for Grade.|
+
+## Database Initialization in EF6
+
+The following figure shows a database initialization workflow, based on the parameter passed in the base constructor of the context class, which is derived from DbContext:
+
+![Database-initialization](images/database_init_01.png)
+
+Entity Framework code-first database initialization
+As per the above figure, the base constructor of the context class can have the following parameter.
+
+- No Parameter
+- Database Name
+- Connection String Name
+
+```
+# No Parameter
+public class Context: DbContext 
+{
+    public Context(): base()
+    {
+        
+    }
+}
+
+# Database Name
+public class Context: DbContext 
+{
+    public Context(): base("MySchoolDB") 
+    {
+               
+    }
+}
+
+# ConnectionString Name
+public class Context: DbContext 
+{
+    public SchoolDBContext() : base("name=SchoolDBConnectionString") 
+    {
+    }
+}
+
+```
 ## Inheritance Strategy in Entity Framework 6
 
 ```
