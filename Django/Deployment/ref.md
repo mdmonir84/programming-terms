@@ -42,7 +42,7 @@
     - overhead of having to set up another server apart from your web server.
     - Needing to proxy from your main web server to uWSGI.
 
-## Django Deployment with uWSGI
+## Django uWSGI setup
 
 ### uWSGI master/slave process strategy
 ```
@@ -105,6 +105,64 @@ Group=$user
 WantedBy=multi-user.target
 EOL
 ```
+## Django Gunicorn setup
+
+### Running gunicorn 
+- gunicorn [OPTIONS] [WSGI_APP]
+  - gunicorn myproject.wsgi
+  - gunicorn --workers=2 myproject.wsgi
+  - gunicorn --env DJANGO_SETTINGS_MODULE=myproject.settings myproject.wsgi
+
+### Make the systemd service for gunicorn
+
+```
+# Path: /etc/systemd/system/gunicorn.service
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+Type=notify
+# the specific user that our service will run as
+User=someuser
+Group=someuser
+# another option for an even more restricted service is
+# DynamicUser=yes
+# see http://0pointer.net/blog/dynamic-users-with-systemd.html
+RuntimeDirectory=gunicorn
+WorkingDirectory=/home/someuser/applicationroot
+ExecStart=/usr/bin/gunicorn applicationname.wsgi
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+
+
+# Socket: /etc/systemd/system/gunicorn.socket:
+
+[Unit]
+Description=gunicorn socket
+
+[Socket]
+ListenStream=/run/gunicorn.sock
+# Our service won't need permissions for the socket, since it
+# inherits the file descriptor by socket activation
+# only the nginx daemon will need access to the socket
+SocketUser=www-data
+# Optionally restrict the socket permissions even more.
+# SocketMode=600
+
+[Install]
+WantedBy=sockets.target
+
+```
+systemctl enable --now gunicorn.socket
+
+Ref: https://docs.gunicorn.org/en/latest/run.html
 
 - https://www.digitalocean.com/community/tutorials/django-server-comparison-the-development-server-mod_wsgi-uwsgi-and-gunicorn
 - https://uwsgi-docs.readthedocs.io/en/latest/WSGIquickstart.html
