@@ -37,9 +37,9 @@ public class Enrollment
 }
 
 
-public class SchoolContext: DbContext 
+public class SampleContext: DbContext 
 {
-    public SchoolContext(): base()
+    public SampleContext(): base()
     {
         
     }
@@ -54,7 +54,7 @@ class Program
         static void Main(string[] args)
         {
      
-            using (var ctx = new SchoolContext())
+            using (var ctx = new SampleContext())
             {
                 var stud = new Student() { StudentName = "Bill" };
         
@@ -110,7 +110,7 @@ public class Context: DbContext
 # Database Name
 public class Context: DbContext 
 {
-    public Context(): base("MySchoolDB") 
+    public Context(): base("MySampleDB") 
     {
                
     }
@@ -119,10 +119,94 @@ public class Context: DbContext
 # ConnectionString Name
 public class Context: DbContext 
 {
-    public SchoolDBContext() : base("name=SchoolDBConnectionString") 
+    public SampleDBContext() : base("name=SampleDBConnectionString") 
     {
     }
 }
+
+```
+## Database Initialization Strategies in EF6
+
+There are four different database initialization strategies:
+
+- CreateDatabaseIfNotExists
+- DropCreateDatabaseIfModelChanges
+- DropCreateDatabaseAlways
+- Custom DB Initializer
+
+
+```
+public class SampleDBContext: DbContext 
+{
+    public SampleDBContext(): base("SampleDBConnectionString") 
+    {
+        Database.SetInitializer<SampleDBContext>(new CreateDatabaseIfNotExists<SampleDBContext>());
+
+        //Database.SetInitializer<SampleDBContext>(new DropCreateDatabaseIfModelChanges<SampleDBContext>());
+        //Database.SetInitializer<SampleDBContext>(new DropCreateDatabaseAlways<SampleDBContext>());
+        //Database.SetInitializer<SampleDBContext>(new SampleDBInitializer());
+    }
+
+    public DbSet<Student> Students { get; set; }
+    public DbSet<Standard> Standards { get; set; }
+
+}
+
+You can also create your custom DB initializer, by inheriting one of the initializers, as shown below:
+
+public class SampleDBInitializer :  CreateDatabaseIfNotExists<SampleDBContext>
+{
+    protected override void Seed(SampleDBContext context)
+    {
+        base.Seed(context);
+    }
+}
+ 
+# Set the DB Initializer in the Configuration File
+
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <appSettings>
+    <add key="DatabaseInitializerForType SampleDataLayer.SampleDBContext, SampleDataLayer"         
+        value="System.Data.Entity.DropCreateDatabaseAlways`1[[SampleDataLayer.SampleDBContext, SampleDataLayer]], EntityFramework" />
+    </appSettings>
+</configuration>
+
+# You can set the custom DB initializer, as follows:
+
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <appSettings>    
+    <add key="DatabaseInitializerForType SampleDataLayer.SampleDBContext, SampleDataLayer"
+            value="SampleDataLayer.SampleDBInitializer, SampleDataLayer" />
+    </appSettings>
+</configuration>
+        
+```
+### Turn off the DB Initializer
+You can turn off the database initializer for your application. 
+
+````
+public class SampleDBContext: DbContext 
+{
+    public SampleDBContext() : base("SampleDBConnectionString")
+    {            
+        //Disable initializer
+        Database.SetInitializer<SampleDBContext>(null);
+    }
+    public DbSet<Student> Students { get; set; }
+    public DbSet<Standard> Standards { get; set; }
+}
+        
+# You can also turn off the initializer in the configuration file, for example:
+
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <appSettings>    
+    <add key="DatabaseInitializerForType SampleDataLayer.SampleDBContext, SampleDataLayer"
+            value="Disabled" />
+    </appSettings>
+</configuration>
 
 ```
 ## Inheritance Strategy in Entity Framework 6
