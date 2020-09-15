@@ -186,7 +186,7 @@ public class SampleDBInitializer :  CreateDatabaseIfNotExists<SampleDBContext>
 ### Turn off the DB Initializer
 You can turn off the database initializer for your application. 
 
-````
+```
 public class SampleDBContext: DbContext 
 {
     public SampleDBContext() : base("SampleDBConnectionString")
@@ -207,9 +207,118 @@ public class SampleDBContext: DbContext
             value="Disabled" />
     </appSettings>
 </configuration>
+```
+## Database seed 
+
+### OnModelCreating
 
 ```
-## Inheritance Strategy in Entity Framework 6
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<Author>().HasData(
+        new Author
+        {
+            AuthorId = 1,
+            FirstName = "William",
+            LastName = "Shakespeare"
+        }
+    );
+    modelBuilder.Entity<Book>().HasData(
+        new Book { BookId = 1, AuthorId = 1, Title = "Hamlet" },
+        new Book { BookId = 2, AuthorId = 1, Title = "King Lear" },
+        new Book { BookId = 3, AuthorId = 1, Title = "Othello" }
+    );
+}
+
+## Creates extension method 
+public static class ModelBuilderExtensions
+{
+    public static void Seed(this ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Author>().HasData(
+            new Author
+            {
+                AuthorId = 1,
+                FirstName = "William",
+                LastName = "Shakespeare"
+            }
+        );
+        modelBuilder.Entity<Book>().HasData(
+            new Book { BookId = 1, AuthorId = 1, Title = "Hamlet" },
+            new Book { BookId = 2, AuthorId = 1, Title = "King Lear" },
+            new Book { BookId = 3, AuthorId = 1, Title = "Othello" }
+        );
+    }
+}
+
+# call extension method
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Seed();
+}
+
+```
+### Before EF2.1
+
+```
+public class DataSeeder
+{
+    public static void SeedCountries(DbContext context)
+    {
+        if (!context.Countries.Any())
+        {
+            var countries = new List<Country>
+            {
+				new Country { Name = "Afghanistan" },
+				....
+				new Country { Name = "Azerbaijan" },
+                ...
+            };
+            context.AddRange(countries);
+            context.SaveChanges();
+        }
+    }
+}
+
+
+# In the main method 
+public void Main(string[] args)
+{
+    var host = BuildWebHost(args);
+    using (var scope = host.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+        DataSeeder.SeedCountries(context);
+    }
+    host.Run();
+}
+
+# With extension method 
+public static IWebHost SeedData(this IWebHost host)
+{
+    using (var scope = host.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+        
+        SeedCountries(context);
+    }
+    return host;
+}
+
+# Call extension method 
+public void Main(string[] args)
+{
+    BuildWebHost(args).SeedData().Run();
+}
+
+```
+
+> https://www.learnentityframeworkcore.com/migrations/seeding
+
+
+## Inheritance Strategy in EF6
 
 ```
 # Sample Inheritance class structure
