@@ -473,7 +473,7 @@ As you have seen so far, we used its Requires method to customize TPH. We also u
 
 
 ## Adding MySQL to EF Core 
-
-### Package Pomelo.EntityFrameworkCore.MySql
-
-> Install-Package Pomelo.EntityFrameworkCore.MySql -Version 3.2.0
+- Package Pomelo.EntityFrameworkCore.MySql
+  - Install-Package Pomelo.EntityFrameworkCore.MySql -Version 3.2.0
+- EF Tools
+  - Install-Package Microsoft.EntityFrameworkCore.Tools 
