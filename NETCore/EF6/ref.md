@@ -428,3 +428,11 @@ As you have seen so far, we used its Requires method to customize TPH. We also u
 ![TPC-Table-Mapping](images/TPC_mapping.png)
 
 - https://weblogs.asp.net/manavi/inheritance-mapping-strategies-with-entity-framework-code-first-ctp5-part-3-table-per-concrete-type-tpc-and-choosing-strategy-guidelines
+
+
+
+## Adding MySQL to EF Core 
+
+### Package Pomelo.EntityFrameworkCore.MySql
+
+> Install-Package Pomelo.EntityFrameworkCore.MySql -Version 3.2.0
