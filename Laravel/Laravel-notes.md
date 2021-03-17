@@ -4,6 +4,10 @@
 
 ![Laravel-lifecycle](images/Laravel-lifecycle.png)
 
+### Laravel application load (data flow)
+![Laravel-lifecycle](images/detailed_data_flow.PNG)
+
+
 ## What makes Laravel slow
 - A large amount of files are required
 - Each file needs its parsing and compiling
